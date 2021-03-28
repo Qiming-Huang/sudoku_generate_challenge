@@ -1,2 +1,2 @@
-# sudoku_generate_challenge
+# sudoku generating challenge
 the codes for the sudoku generating challenge
