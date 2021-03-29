@@ -1,9 +1,13 @@
+"""
+Perform taylor decomposition, plot th result and calculate the dfficulty score
+"""
 import numpy as np
 from tensorflow.keras.models import load_model
 import tensorflow as tf
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
+# calculate difficulty score
 def cal_score(grad, x):
     sig_score = (grad * x).numpy()
     sig_score = sig_score.reshape((9,9))
@@ -14,17 +18,19 @@ def cal_score(grad, x):
                 cot += 1
     return cot / 81
 
+# plot result
 def plot_res(df_score):
     plt.hist(df_score, bins=10)
     plt.show()
 
+# loal model and preprocess    
 model = load_model('sudoku.h5')
 data = np.load('sudoku.npz')
 x = data['train'][:20000]
 sig_score = []
 df_score = []
 
-
+# calculate significant score which is taylor dicomposition
 for i in tqdm(range(100)):
     cal_x = x[i].reshape((1,9,9,1))
     cal_x = tf.constant(cal_x, dtype=tf.float32)
